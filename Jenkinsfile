@@ -27,7 +27,7 @@ pipeline {
             echo 'Pipeline falló. Revisar logs.'
         }
         success {
-            echo 'Pipeline ejecutado correctamente.'
+            echo 'Pipeline ejecutado correctamente .'
         }
     }
 }
