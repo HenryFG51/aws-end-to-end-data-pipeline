@@ -1,0 +1,163 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Base infrastructure for data pipeline
+
+Parameters:
+
+  InternalCloudFormationStack:
+    Type: String
+    Description: "Stack Name"
+
+  ProjectName:
+    Type: String
+    Description: Project name (lowercase, no spaces)
+
+  ProjectBucket:
+    Type: String
+    Description: S3 bucket where all project files are stored
+
+  GlueDatabase:
+    Type: String
+    Description: Glue Catalog database name
+
+  DynamoTableName:
+    Type: String
+    Description: DynamoDB table name for execution log
+
+  SecretManagerName:
+    Type: String
+    Description: Name of the secret in Secrets Manager
+
+  PipelineScript:
+    Type: String
+    Description: Python script file name
+
+  EtlExtraPy:
+    Type: String
+    Description: Comma-separated list of additional Python packages or scripts for the Glue job
+
+  SecretManagerName:
+    Type: String
+    Description: "Name of secret manager where is store credential"
+
+  SportsApiBaseUrl:
+    Type: String
+    Description: "Base URL for the sports API"
+
+  league:
+    Type: String
+    Description: "League for which to fetch data"
+
+  season:
+    Type: String
+    Description: "Season for which to fetch data"
+
+  EnvironmentName:
+    Type: String
+    AllowedValues:
+      - dev
+      - tst
+      - prd
+
+Resources:
+
+  MainBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref ProjectBucket
+
+  SportsApiSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Ref SecretManagerName
+      Description: !Sub "Secret for ${ProjectName}-${EnvironmentName} sports API configuration"
+      SecretString: !Sub '{"sports_api_base_url": "${SportsApiBaseUrl}","league": "${league}","season": "${season}"}'
+
+  GlueRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${ProjectName}-${EnvironmentName}-glue-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+      Policies:
+        - PolicyName: ProjectAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:ListBucket
+                  - s3:DeleteObject
+                Resource:
+                  - !Sub "arn:aws:s3:::${ProjectBucket}"
+                  - !Sub "arn:aws:s3:::${ProjectBucket}/*"
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoTableName}"
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${SecretManagerName}*"
+              - Effect: Allow
+                Action:
+                  - glue:GetDatabase
+                  - glue:GetDatabases
+                  - glue:GetTable
+                  - glue:GetTables
+                Resource: "*"
+
+  GlueCatalogDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: !Ref GlueDatabase
+
+  GlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      GlueVersion: "4.0"
+      Description: ETL Python Shell job
+      Name: !Sub "${ProjectName}-${EnvironmentName}-etl-job"
+      Role: !GetAtt GlueRole.Arn
+      Command:
+        Name: pythonshell
+        PythonVersion: "3.9"
+        ScriptLocation: !Sub "s3://${ProjectBucket}/${ProjectName}/glue/${InternalCloudFormationStack}/src/etl/${PipelineScript}"
+      MaxCapacity: 0.0625
+      DefaultArguments:
+        "--library-set": "analytics"
+        '--extra-py-files': !Ref EtlExtraPy 
+        "--secret_manager": !Ref SecretManagerName
+        "--output_s3": !Ref ProjectBucket
+        "--dynamodb_table_name": !Ref DynamoTableName
+        "--glue_database": !Ref GlueDatabase
+        "--job-language": "python"
+        "--raw_path": !Sub "s3://${ProjectBucket}/${ProjectName}/raw/"
+        "--processed_path": !Sub "s3://${ProjectBucket}/${ProjectName}/processed/"
+        "--TempDir": !Sub "s3://${ProjectBucket}/${ProjectName}/glue/temp/"
+
+Outputs:
+  ProjectBucketName:
+    Value: !Ref MainBucket
+
+  GlueRoleName:
+    Value: !Ref GlueRole
+
+  GlueDatabaseName:
+    Value: !Ref GlueDatabase
+
+  GlueJobName:
+    Value: !Ref GlueJob
