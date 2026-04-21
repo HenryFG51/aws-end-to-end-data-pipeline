@@ -19,15 +19,18 @@ pipeline {
                     if (env.BRANCH_NAME == 'dev') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-dev'
                         env.STACK_NAME = 'data-platform-dev'
-                        env.PARAM_FILE = 'iac/parameters/dev.json'
+                        env.PARAM_FILE = 'iac/parameters/dev.params'
                     } else if (env.BRANCH_NAME == 'tst') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-tst'
                         env.STACK_NAME = 'data-platform-tst'
-                        env.PARAM_FILE = 'iac/parameters/tst.json'
+                        env.PARAM_FILE = 'iac/parameters/tst.params'
                     } else if (env.BRANCH_NAME == 'prd') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-prd'
                         env.STACK_NAME = 'data-platform-prd'
-                        env.PARAM_FILE = 'iac/parameters/prd.json'
+                        env.PARAM_FILE = 'iac/parameters/prd.params'
+                    } else if (env.BRANCH_NAME == 'main') {
+                        env.SKIP_DEPLOY = 'true'
+                        echo 'Main branch detected. Validation only, no deployment.'
                     } else {
                         error("Branch no soportada para despliegue: ${env.BRANCH_NAME}")
                     }
@@ -38,12 +41,19 @@ pipeline {
         stage('Validate Python Syntax') {
             steps {
                 sh '''
-                    find src -name "*.py" -exec python3 -m py_compile {} \\;
+                    if [ -d "src" ]; then
+                      find src -name "*.py" -exec python3 -m py_compile {} \\;
+                    else
+                      echo "No src directory found. Skipping Python syntax validation."
+                    fi
                 '''
             }
         }
 
-        stage('Validate AWS Identity') {
+        stage('Validate CloudFormation Template') {
+            when {
+                expression { env.SKIP_DEPLOY != 'true' }
+            }
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -52,19 +62,6 @@ pipeline {
                     sh '''
                         export AWS_DEFAULT_REGION=$AWS_REGION
                         aws sts get-caller-identity
-                    '''
-                }
-            }
-        }
-
-        stage('Validate CloudFormation Template') {
-            steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: "${env.AWS_CREDENTIALS_ID}"
-                ]]) {
-                    sh '''
-                        export AWS_DEFAULT_REGION=$AWS_REGION
                         aws cloudformation validate-template \
                           --template-body file://iac/templates/data-platform.yaml
                     '''
@@ -73,29 +70,44 @@ pipeline {
         }
 
         stage('Deploy Stack') {
+            when {
+                expression { env.SKIP_DEPLOY != 'true' }
+            }
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: "${env.AWS_CREDENTIALS_ID}"
                 ]]) {
-                    sh '''
-                        export AWS_DEFAULT_REGION=$AWS_REGION
-                        aws cloudformation deploy \
-                          --template-file iac/templates/data-platform.yaml \
-                          --stack-name $STACK_NAME \
-                          --capabilities CAPABILITY_NAMED_IAM
-                    '''
+                    script {
+                        def params = readFile(env.PARAM_FILE)
+                            .split('\n')
+                            .collect { it.trim() }
+                            .findAll { it && !it.startsWith('#') }
+                            .join(' ')
+
+                        sh """
+                            export AWS_DEFAULT_REGION=$AWS_REGION
+                            aws cloudformation deploy \
+                              --template-file iac/templates/data-platform.yaml \
+                              --stack-name ${env.STACK_NAME} \
+                              --parameter-overrides ${params} \
+                              --capabilities CAPABILITY_NAMED_IAM
+                        """
+                    }
                 }
             }
         }
     }
 
     post {
+        success {
+            echo "Pipeline ejecutado correctamente para la rama ${env.BRANCH_NAME}"
+        }
         failure {
             echo 'Pipeline falló. Revisar logs.'
         }
-        success {
-            echo "Pipeline ejecutado correctamente para ${env.BRANCH_NAME}"
+        always {
+            cleanWs()
         }
     }
 }

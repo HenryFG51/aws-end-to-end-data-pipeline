@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "EnvironmentName",
-    "ParameterValue": "test"
+    "ParameterValue": "tst"
   },
   {
     "ParameterKey": "ProjectBucket",
@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "SecretManagerName",
-    "ParameterValue": "data-platform/test/etl-secret"
+    "ParameterValue": "data-platform/tst/etl-secret"
   },
   {
     "ParameterKey": "PipelineScript",
