@@ -1,0 +1,50 @@
+[
+  {
+    "ParameterKey": "InternalCloudFormationStack",
+    "ParameterValue": "data-platform-lab-etl"
+  },
+  {
+    "ParameterKey": "ProjectName",
+    "ParameterValue": "data-platform-lab"
+  },
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "ProjectBucket",
+    "ParameterValue": "data-platform-tst-main-614399201520"
+  },
+  {
+    "ParameterKey": "GlueDatabase",
+    "ParameterValue": "data_platform_tst_db"
+  },
+  {
+    "ParameterKey": "DynamoTableName",
+    "ParameterValue": "data-platform-tst-job-history"
+  },
+  {
+    "ParameterKey": "SecretManagerName",
+    "ParameterValue": "data-platform/test/etl-secret"
+  },
+  {
+    "ParameterKey": "PipelineScript",
+    "ParameterValue": "main_script.py"
+  },
+  {
+    "ParameterKey": "EtlExtraPy",
+    "ParameterValue": "s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/urllib3-1.26.15-py2.py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/requests-2.31.0-py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/dmt_boto3-latest-py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/src/etl/aws_utils.py"
+  },
+  {
+    "ParameterKey": "SportsApiBaseUrl",
+    "ParameterValue": "https://www.scorebat.com/video-api/v3/"
+  },
+  {
+    "ParameterKey": "league",
+    "ParameterValue": "soccer"
+  },
+  {
+    "ParameterKey": "season",
+    "ParameterValue": "2026"
+  }
+]
