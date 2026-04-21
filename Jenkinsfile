@@ -18,7 +18,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'dev') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-dev'
-                        env.STACK_NAME = 'data-platform-dev'
+                        env.STACK_NAME = 'data-platform-dev-stack'
                         env.PARAM_FILE = 'iac/parameters/dev.json'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'tst') {
