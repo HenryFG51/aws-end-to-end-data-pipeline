@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< HEAD
     "ParameterKey": "InternalCloudFormationStack",
     "ParameterValue": "data-platform-lab-etl"
   },
@@ -46,5 +47,9 @@
   {
     "ParameterKey": "season",
     "ParameterValue": "2026"
+=======
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "test"
+>>>>>>> 6090c9a (Use JSON parameter files and standardize names)
   }
 ]
