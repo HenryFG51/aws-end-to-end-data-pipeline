@@ -9,23 +9,23 @@
   },
   {
     "ParameterKey": "EnvironmentName",
-    "ParameterValue": "prd"
+    "ParameterValue": "tst"
   },
   {
     "ParameterKey": "ProjectBucket",
-    "ParameterValue": "data-platform-prd-main-570435244160"
+    "ParameterValue": "data-platform-tst-main-614399201520"
   },
   {
     "ParameterKey": "GlueDatabase",
-    "ParameterValue": "data_platform_prd_db"
+    "ParameterValue": "data_platform_tst_db"
   },
   {
     "ParameterKey": "DynamoTableName",
-    "ParameterValue": "data-platform-prd-job-history"
+    "ParameterValue": "data-platform-tst-job-history"
   },
   {
     "ParameterKey": "SecretManagerName",
-    "ParameterValue": "data-platform/prd/etl-secret"
+    "ParameterValue": "data-platform/test/etl-secret"
   },
   {
     "ParameterKey": "PipelineScript",
@@ -33,7 +33,7 @@
   },
   {
     "ParameterKey": "EtlExtraPy",
-    "ParameterValue": "s3://data-platform-prd-main-570435244160/data-platform-lab/glue/data-platform-lab-etl/packages/urllib3-1.26.15-py2.py3-none-any.whl,s3://data-platform-prd-main-570435244160/data-platform-lab/glue/data-platform-lab-etl/packages/requests-2.31.0-py3-none-any.whl,s3://data-platform-prd-main-570435244160/data-platform-lab/glue/data-platform-lab-etl/packages/dmt_boto3-latest-py3-none-any.whl,s3://data-platform-prd-main-570435244160/data-platform-lab/glue/data-platform-lab-etl/src/etl/aws_utils.py"
+    "ParameterValue": "s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/urllib3-1.26.15-py2.py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/requests-2.31.0-py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/packages/dmt_boto3-latest-py3-none-any.whl,s3://data-platform-tst-main-614399201520/data-platform-lab/glue/data-platform-lab-etl/src/etl/aws_utils.py"
   },
   {
     "ParameterKey": "SportsApiBaseUrl",
