@@ -23,12 +23,12 @@ pipeline {
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'tst') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-tst'
-                        env.STACK_NAME = 'data-platform-dev-stack'
+                        env.STACK_NAME = 'data-platform-tst-stack'
                         env.PARAM_FILE = 'iac/parameters/tst.json'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'prd') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-prd'
-                        env.STACK_NAME = 'data-platform-dev-stack'
+                        env.STACK_NAME = 'data-platform-prd-stack'
                         env.PARAM_FILE = 'iac/parameters/prd.json'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'main') {
