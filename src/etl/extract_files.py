@@ -20,7 +20,7 @@ import awswrangler as wr
 
 
 ###########################PATHS################################
-PATH_SALES = 'data-platform-lab/input/sales.csv/'
+PATH_SALES = 'data-platform-lab/input/sales/sales.csv/'
 ###########################PATHS################################
 
 
