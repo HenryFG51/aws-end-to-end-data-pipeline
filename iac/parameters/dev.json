@@ -46,6 +46,10 @@
   {
     "ParameterKey": "season",
     "ParameterValue": "2026"
+  },
+  {
+    "ParameterKey": "DummyValue",
+    "ParameterValue": "to_be_defined"
   }
 ]
 
