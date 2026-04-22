@@ -1,11 +1,5 @@
 [
   {
-    "ParameterKey": "EnvironmentName",
-    "ParameterValue": "prod"
-  }
-]
-[
-  {
     "ParameterKey": "InternalCloudFormationStack",
     "ParameterValue": "data-platform-lab-etl"
   },
