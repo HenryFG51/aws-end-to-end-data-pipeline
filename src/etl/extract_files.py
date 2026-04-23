@@ -30,7 +30,6 @@ aws_ops = AWSOperations(
 )
 
 secrets = aws_ops.get_secret()
-base_url = secrets["sports_api_base_url"]
 s3_bucket = f"{args['output_s3']}"
 
 class Get_Info:
@@ -40,6 +39,17 @@ class Get_Info:
         df = wr.s3.read_csv(f's3://{s3_bucket}/{path}',encoding='latin-1')
         #df = wr.s3.read_csv('s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv',encoding='latin-1')
         return df
+    
+    @staticmethod
+    def extract_data_from_api(endpoint):
+        response = requests.get(endpoint)
+        if response.status_code == 200:
+            data = response.json()
+            df = pd.DataFrame(data['products'])
+            return df
+        else:
+            print(f"Error al obtener datos de la API: {response.status_code}")
+            return None
     
 
 
