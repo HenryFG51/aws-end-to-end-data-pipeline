@@ -20,16 +20,19 @@ pipeline {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-dev'
                         env.STACK_NAME = 'data-platform-dev-stack'
                         env.PARAM_FILE = 'iac/parameters/dev.json'
+                        env.S3_BUCKET = 'data-platform-dev-main-570435244160'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'tst') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-tst'
                         env.STACK_NAME = 'data-platform-tst-stack'
                         env.PARAM_FILE = 'iac/parameters/tst.json'
+                        env.S3_BUCKET = 'data-platform-tst-main-614399201520'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'prd') {
                         env.AWS_CREDENTIALS_ID = 'aws-creds-prd'
                         env.STACK_NAME = 'data-platform-prd-stack'
                         env.PARAM_FILE = 'iac/parameters/prd.json'
+                        env.S3_BUCKET = 'data-platform-prd-main-805981941599'
                         env.SKIP_DEPLOY = 'false'
                     } else if (env.BRANCH_NAME == 'main') {
                         env.SKIP_DEPLOY = 'true'
@@ -88,6 +91,27 @@ pipeline {
                           --stack-name ${env.STACK_NAME} \
                           --parameter-overrides file://${env.PARAM_FILE} \
                           --capabilities CAPABILITY_NAMED_IAM
+                    """
+                }
+            }
+        }
+
+        stage('Upload ETL Scripts to S3') {
+            when {
+                expression { env.SKIP_DEPLOY != 'true' }
+            }
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "${env.AWS_CREDENTIALS_ID}"
+                ]]) {
+                    sh """
+                        export AWS_DEFAULT_REGION=$AWS_REGION
+
+                        aws s3 cp src/ s3://${env.S3_BUCKET}/data-platform-lab-etl/ \
+                          --recursive \
+                          --exclude "*" \
+                          --include "*.py"
                     """
                 }
             }
