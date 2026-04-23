@@ -10,12 +10,22 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------
 """
 
-from extract_files import extract_data_from_csv
+from extract_files import Get_Info
+
+
+###########################PATHS################################
+PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
+PATH_STORES = 'data-platform-lab/input/sales/stores.csv'
+###########################PATHS################################
+
+
 
 def main():
     print("Inicio del proceso de ETL")
-    df = extract_data_from_csv()
-    print(df.head())
+    df_sales = Get_Info.extract_data_from_csv(PATH_SALES)
+    df_stores = Get_Info.extract_data_from_csv(PATH_STORES)
+    print(df_sales.head())
+    print(df_sales.head())
     print("Fin del proceso de ETL")
 
 if __name__ == "__main__":

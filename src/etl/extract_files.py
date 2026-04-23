@@ -19,11 +19,6 @@ from aws_utils import AWSOperations
 import awswrangler as wr
 
 
-###########################PATHS################################
-PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
-###########################PATHS################################
-
-
 args = getResolvedOptions(sys.argv,['secret_manager', 'output_s3', 'dynamodb_table_name'])
 
 aws_ops = AWSOperations(
@@ -38,13 +33,15 @@ secrets = aws_ops.get_secret()
 base_url = secrets["sports_api_base_url"]
 s3_bucket = f"{args['output_s3']}"
 
-print(base_url)
-print(s3_bucket)
+class Get_Info:
 
-def extract_data_from_csv():
-    df = wr.s3.read_csv(f's3://{s3_bucket}/{PATH_SALES}',encoding='latin-1')
-    #df = wr.s3.read_csv('s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv',encoding='latin-1')
-    return df
+    @staticmethod
+    def extract_data_from_csv(path):
+        df = wr.s3.read_csv(f's3://{s3_bucket}/{path}',encoding='latin-1')
+        #df = wr.s3.read_csv('s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv',encoding='latin-1')
+        return df
+    
+
 
 #s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv
 
