@@ -42,7 +42,7 @@ class Get_Info:
     
     @staticmethod
     def extract_data_from_api(endpoint):
-        response = requests.get(endpoint)
+        response = requests.get(endpoint, timeout=30)
         if response.status_code == 200:
             data = response.json()
             df = pd.DataFrame(data['products'])
