@@ -108,7 +108,7 @@ pipeline {
                     sh """
                         export AWS_DEFAULT_REGION=$AWS_REGION
 
-                        aws s3 cp src/ s3://${env.S3_BUCKET}/data-platform-lab/glue/data-platform-lab-etl/src/etl/ \
+                        aws s3 cp src/etl/ s3://${env.S3_BUCKET}/data-platform-lab/glue/data-platform-lab-etl/src/etl/ \
                           --recursive \
                           --exclude "*" \
                           --include "*.py"
