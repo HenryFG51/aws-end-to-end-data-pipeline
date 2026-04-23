@@ -20,7 +20,7 @@ import awswrangler as wr
 
 
 ###########################PATHS################################
-PATH_SALES = 'data-platform-lab/input/sales/org_rev.parquet'
+PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
 ###########################PATHS################################
 
 
@@ -42,7 +42,8 @@ print(base_url)
 print(s3_bucket)
 
 def extract_data_from_csv():
-    df = wr.s3.read_csv(f's3://{s3_bucket}/{PATH_SALES}')
+    df = wr.s3.read_csv(f's3://{s3_bucket}/{PATH_SALES}',encoding='latin-1')
+    #df = wr.s3.read_csv('s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv',encoding='latin-1')
     return df
 
 #s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv
