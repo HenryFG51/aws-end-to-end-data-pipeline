@@ -19,12 +19,11 @@ from aws_utils import AWSOperations
 import awswrangler as wr
 
 
-# args = getResolvedOptions(sys.argv,['secret_manager', 'output_s3', 'dynamodb_table_name'])
-args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name'])
+args = getResolvedOptions(sys.argv,['secret_manager', 'output_s3', 'dynamodb_table_name'])
 
 aws_ops = AWSOperations(
     dynamo_table=args['dynamodb_table_name'],
-    #secret_path=args['secret_manager'],
+    secret_path=args['secret_manager'],
     s3_bucket=args['output_s3'],
     profile=None,
     region="us-east-1"
