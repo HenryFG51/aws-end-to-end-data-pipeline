@@ -19,6 +19,11 @@ import boto3
 from awsglue.utils import getResolvedOptions
 from aws_utils import AWSOperations
 import sys
+from datetime import datetime
+
+
+#get datatime
+execution_date = datetime.today().strftime("%Y-%m-%d")
 
 
 # Get resolved options from command line arguments for AWS Glue job
@@ -45,7 +50,7 @@ s3_bucket = f"{args['output_s3']}"
 ###########################PATHS################################
 PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
 PATH_STORES = 'data-platform-lab/input/sales/stores.csv'
-PATH_RAW = 'data-platform-lab/raw/'
+PATH_RAW = 'data-platform-lab/raw'
 PATH_PROCESSED = 'data-platform-lab/processed/sales_enriched/'
 url = "https://dummyjson.com/products"
 ###########################PATHS################################
@@ -64,17 +69,17 @@ class Load_Data:
         # Extraer datos de ventas desde archivo CSV
         df_sales = Get_Info.extract_data_from_csv(PATH_SALES)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_parquet(df=df_sales,path=s3_destination_path,database='data_platform_dev_db',table='sales_raw',mode="overwrite",dataset=True)
+        wr.s3.to_csv(df=df_sales, path=f'{s3_destination_path}/{execution_date}/sales.csv',index=False)
         # Extract stores data from CSV file
         # Extraer datos de tiendas desde archivo CSV
         df_stores = Get_Info.extract_data_from_csv(PATH_STORES)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_parquet(df=df_stores,path=s3_destination_path,database='data_platform_dev_db',table='stores_raw',mode="overwrite",dataset=True)
+        wr.s3.to_csv(df=df_stores,path=s3_destination_path=f'{s3_destination_path}/{execution_date}/stores.csv',index=False)
         # Extract products data from API
         # Extraer datos de productos desde API
         df_products = Get_Info.extract_data_from_api(url)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_parquet(df=df_products,path=s3_destination_path,database='data_platform_dev_db',table='products_raw',mode="overwrite",dataset=True)
+        wr.s3.to_csv(df=df_products,path=s3_destination_path=f'{s3_destination_path}/{execution_date}/products.csv',index=False)
 
         print("Los datos han sido leídos correctamente")
 
