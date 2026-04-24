@@ -24,6 +24,9 @@ from datetime import datetime
 
 #get datatime
 execution_date = datetime.today().strftime("%Y-%m-%d")
+year = execution_date.strftime("%Y")
+month = execution_date.strftime("%m")
+day = execution_date.strftime("%d")
 
 
 # Get resolved options from command line arguments for AWS Glue job
@@ -69,17 +72,17 @@ class Get_Load_Data:
         # Extraer datos de ventas desde archivo CSV
         df_sales = Get_Info.extract_data_from_csv(PATH_SALES)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_csv(df=df_sales, path=f'{s3_destination_path}/{execution_date}/sales.csv',index=False)
+        wr.s3.to_csv(df=df_sales, path=f'{s3_destination_path}/{year}/{month}/{day}/sales.csv',index=False)
         # Extract stores data from CSV file
         # Extraer datos de tiendas desde archivo CSV
         df_stores = Get_Info.extract_data_from_csv(PATH_STORES)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_csv(df=df_stores,path=f'{s3_destination_path}/{execution_date}/stores.csv',index=False)
+        wr.s3.to_csv(df=df_stores,path=f'{s3_destination_path}/{year}/{month}/{day}/stores.csv',index=False)
         # Extract products data from API
         # Extraer datos de productos desde API
         df_products = Get_Info.extract_data_from_api(url)
         s3_destination_path = f's3://{s3_bucket}/{PATH_RAW}'
-        wr.s3.to_csv(df=df_products,path=f'{s3_destination_path}/{execution_date}/products.csv',index=False)
+        wr.s3.to_csv(df=df_products,path=f'{s3_destination_path}/{year}/{month}/{day}/products.csv',index=False)
 
         print("Los datos han sido leídos correctamente")
 
