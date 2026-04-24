@@ -57,7 +57,7 @@ url = "https://dummyjson.com/products"
 
 # Define the Load_Data class for handling data loading operations
 # Definir la clase Load_Data para manejar operaciones de carga de datos
-class Load_Data:
+class Get_Load_Data:
     
     @staticmethod
     def load_data():

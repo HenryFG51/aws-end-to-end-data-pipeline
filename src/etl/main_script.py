@@ -9,13 +9,13 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 """
-from Load_Data import Load_Data
+from Load_Data import Get_Load_Data
 
 def main():
     # Print start of ETL process
     # Imprimir inicio del proceso ETL
     print("Inicio del proceso de ETL")
-    Load_Data.load_data()
+    Get_Load_Data.load_data()
     print("Fin del proceso de ETL")
 
 # Execute main function if script is run directly
