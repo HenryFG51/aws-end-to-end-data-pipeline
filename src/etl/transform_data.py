@@ -2,7 +2,7 @@ from extract_files import Get_Info
 import pandas as pd
 
 class Get_Transform_Data:
-
+    
     @staticmethod
     def transform(df_sales, df_stores, df_products):
 
