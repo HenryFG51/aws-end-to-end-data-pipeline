@@ -23,7 +23,7 @@ from datetime import datetime
 
 
 #get datatime
-execution_date = datetime.today().strftime("%Y-%m-%d")
+execution_date = datetime.today()
 year = execution_date.strftime("%Y")
 month = execution_date.strftime("%m")
 day = execution_date.strftime("%d")
