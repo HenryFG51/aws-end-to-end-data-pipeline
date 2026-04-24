@@ -4,7 +4,7 @@ import pandas as pd
 class Get_Transform_Data:
 
     @staticmethod
-    def transform_data(df_sales, df_stores, df_products):
+    def transform(df_sales, df_stores, df_products):
 
         df_sales = df_sales.copy()
         df_stores = df_stores.copy()
