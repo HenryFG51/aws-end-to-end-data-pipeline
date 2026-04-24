@@ -37,7 +37,6 @@ class Get_Info:
     @staticmethod
     def extract_data_from_csv(path):
         df = wr.s3.read_csv(f's3://{s3_bucket}/{path}',encoding='latin-1')
-        #df = wr.s3.read_csv('s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv',encoding='latin-1')
         return df
     
     @staticmethod
@@ -52,8 +51,6 @@ class Get_Info:
             return None
     
 
-
-#s3://data-platform-dev-main-570435244160/data-platform-lab/input/sales/sales.csv
 
 
 #saving data frame in a parquet file
