@@ -9,26 +9,16 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 """
-
-from transform_data import Get_Transform_Data
-from extract_files import Get_Info
-
-###########################PATHS################################
-PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
-PATH_STORES = 'data-platform-lab/input/sales/stores.csv'
-url = "https://dummyjson.com/products"
-###########################PATHS################################
-
+from Load_Data import Load_Data
 
 def main():
+    # Print start of ETL process
+    # Imprimir inicio del proceso ETL
     print("Inicio del proceso de ETL")
-    df_sales = Get_Info.extract_data_from_csv(PATH_SALES)
-    df_stores = Get_Info.extract_data_from_csv(PATH_STORES)
-    df_products = Get_Info.extract_data_from_api(url)
-    df_final = Get_Transform_Data.transform(df_sales, df_stores, df_products)
-    print(df_final.head())
+    Load_Data.load_data()
     print("Fin del proceso de ETL")
 
+# Execute main function if script is run directly
+# Ejecutar función principal si el script se ejecuta directamente
 if __name__ == "__main__":
     main()
-    print("test1")
