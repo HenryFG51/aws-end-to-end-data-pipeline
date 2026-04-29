@@ -112,6 +112,9 @@ pipeline {
                           --recursive \
                           --exclude "*" \
                           --include "*.py"
+
+                        aws s3 cp src/packages/ s3://${env.S3_BUCKET}/data-platform-lab/glue/data-platform-lab-etl/src/packages/ \
+                          --recursive
                     """
                 }
             }
