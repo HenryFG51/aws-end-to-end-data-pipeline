@@ -31,12 +31,12 @@ day = execution_date.strftime("%d")
 
 # Get resolved options from command line arguments for AWS Glue job
 # Obtener opciones resueltas de argumentos de línea de comandos para el trabajo de AWS Glue
-args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name'])
-glue_database = args["glue_database"]
+args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name', 'glue_database'])
 
 # Initialize AWS operations object with DynamoDB table, secret path, S3 bucket, and region
 # Inicializar objeto de operaciones AWS con tabla DynamoDB, ruta secreta, bucket S3 y región
 aws_ops = AWSOperations(
+    glue_database = args["glue_database"],
     dynamo_table=args['dynamodb_table_name'],
     secret_path=None,
     s3_bucket=args['output_s3'],
@@ -48,6 +48,7 @@ aws_ops = AWSOperations(
 # Recuperar secretos de AWS Secrets Manager
 #secrets = aws_ops.get_secret()
 s3_bucket = f"{args['output_s3']}"
+glue_database = f"{args['glue_database']}"
 
 # Define file paths and API URL for data sources
 # Definir rutas de archivos y URL de API para fuentes de datos
