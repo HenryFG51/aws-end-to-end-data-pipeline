@@ -24,10 +24,6 @@
     "ParameterValue": "data-platform-tst-job-history"
   },
   {
-    "ParameterKey": "SecretManagerName",
-    "ParameterValue": "data-platform/test/etl-secret"
-  },
-  {
     "ParameterKey": "PipelineScript",
     "ParameterValue": "main_script.py"
   },
