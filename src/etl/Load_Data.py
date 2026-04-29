@@ -32,6 +32,7 @@ day = execution_date.strftime("%d")
 # Get resolved options from command line arguments for AWS Glue job
 # Obtener opciones resueltas de argumentos de línea de comandos para el trabajo de AWS Glue
 args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name'])
+glue_database = args["glue_database"]
 
 # Initialize AWS operations object with DynamoDB table, secret path, S3 bucket, and region
 # Inicializar objeto de operaciones AWS con tabla DynamoDB, ruta secreta, bucket S3 y región
@@ -95,5 +96,5 @@ class Get_Load_Data:
         # Commented out: Save DataFrame to Parquet file in S3
         # Comentado: Guardar DataFrame en archivo Parquet en S3
         s3_destination_path = f's3://{s3_bucket}/{PATH_PROCESSED}'
-        wr.s3.to_parquet(df=df_final,path=s3_destination_path,database='data_platform_dev_db',table='sales_enriched',mode="overwrite",dataset=True)
+        wr.s3.to_parquet(df=df_final,path=s3_destination_path,database=glue_database,table='sales_enriched',mode="overwrite",dataset=True)
         pass
