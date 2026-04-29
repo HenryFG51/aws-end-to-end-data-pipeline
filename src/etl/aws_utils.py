@@ -13,8 +13,8 @@ class AWSOperations:
     # Inicializar la clase AWSOperations con parámetros requeridos
     def __init__(
         self,
-        dynamo_table: str,
-        secret_path: str,
+        dynamo_table: Optional[str] = None,
+        secret_path: Optional[str] = None,
         s3_bucket: Optional[str] = None,
         profile: Optional[str] = None,
         region: str = "us-east-1",
