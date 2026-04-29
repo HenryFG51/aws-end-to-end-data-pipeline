@@ -36,7 +36,6 @@ args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name', 'glue_da
 # Initialize AWS operations object with DynamoDB table, secret path, S3 bucket, and region
 # Inicializar objeto de operaciones AWS con tabla DynamoDB, ruta secreta, bucket S3 y región
 aws_ops = AWSOperations(
-    glue_database = args["glue_database"],
     dynamo_table=args['dynamodb_table_name'],
     secret_path=None,
     s3_bucket=args['output_s3'],
