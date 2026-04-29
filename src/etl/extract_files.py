@@ -28,6 +28,7 @@ args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name'])
 # Inicializar objeto de operaciones AWS con tabla DynamoDB, ruta secreta, bucket S3 y región
 aws_ops = AWSOperations(
     dynamo_table=args['dynamodb_table_name'],
+    secret_path=None,
     s3_bucket=args['output_s3'],
     profile=None,
     region="us-east-1"
