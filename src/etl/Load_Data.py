@@ -52,7 +52,7 @@ s3_bucket = f"{args['output_s3']}"
 # Definir rutas de archivos y URL de API para fuentes de datos
 ###########################PATHS################################
 PATH_SALES = 'data-platform-lab/input/sales/sales.csv'
-PATH_STORES = 'data-platform-lab/input/sales/stores.csv'
+PATH_STORES = 'data-platform-lab/input/stores/stores.csv'
 PATH_RAW = 'data-platform-lab/raw'
 PATH_PROCESSED = 'data-platform-lab/processed/sales_enriched/'
 url = "https://dummyjson.com/products"
