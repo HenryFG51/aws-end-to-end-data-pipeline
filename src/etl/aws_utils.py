@@ -60,6 +60,9 @@ class AWSOperations:
     # Retrieve secret from AWS Secrets Manager
     # Recuperar secreto de AWS Secrets Manager
     def get_secret(self) -> dict:
+        if not self.secret_path:
+            raise ValueError("secret_path is not configured.")
+
         try:
             response = self.secrets_client.get_secret_value(SecretId=self.secret_path)
             secret_string = response.get("SecretString", "{}")

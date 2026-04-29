@@ -36,17 +36,17 @@ Parameters:
     Type: String
     Description: Comma-separated list of additional Python packages or scripts for the Glue job
 
-  SportsApiBaseUrl:
-    Type: String
-    Description: "Base URL for the sports API"
+  # SportsApiBaseUrl:
+  #   Type: String
+  #   Description: "Base URL for the sports API"
 
-  league:
-    Type: String
-    Description: "League for which to fetch data"
+  # league:
+  #   Type: String
+  #   Description: "League for which to fetch data"
 
-  season:
-    Type: String
-    Description: "Season for which to fetch data"
+  # season:
+  #   Type: String
+  #   Description: "Season for which to fetch data"
 
   EnvironmentName:
     Type: String
