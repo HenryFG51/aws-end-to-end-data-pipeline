@@ -22,13 +22,12 @@ import awswrangler as wr
 
 # Get resolved options from command line arguments for AWS Glue job
 # Obtener opciones resueltas de argumentos de línea de comandos para el trabajo de AWS Glue
-args = getResolvedOptions(sys.argv,['secret_manager', 'output_s3', 'dynamodb_table_name'])
+args = getResolvedOptions(sys.argv,['output_s3', 'dynamodb_table_name'])
 
 # Initialize AWS operations object with DynamoDB table, secret path, S3 bucket, and region
 # Inicializar objeto de operaciones AWS con tabla DynamoDB, ruta secreta, bucket S3 y región
 aws_ops = AWSOperations(
     dynamo_table=args['dynamodb_table_name'],
-    secret_path=args['secret_manager'],
     s3_bucket=args['output_s3'],
     profile=None,
     region="us-east-1"
