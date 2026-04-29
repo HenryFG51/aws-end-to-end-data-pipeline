@@ -36,7 +36,7 @@ aws_ops = AWSOperations(
 
 # Retrieve secrets from AWS Secrets Manager
 # Recuperar secretos de AWS Secrets Manager
-secrets = aws_ops.get_secret()
+# secrets = aws_ops.get_secret()
 s3_bucket = f"{args['output_s3']}"
 
 # Define the Get_Info class for data extraction operations
