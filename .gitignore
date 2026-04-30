@@ -1,0 +1,58 @@
+# 🐍 Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+
+# 📦 Virtual environments
+venv/
+.env/
+.envrc
+
+# 🧪 Testing / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# 📄 Logs
+*.log
+
+# 🧠 IDEs / Editors
+.vscode/
+.idea/
+*.swp
+
+# 🗂️ OS files
+.DS_Store
+Thumbs.db
+
+# 🔐 Secrets / credentials (CRÍTICO)
+.env
+*.env
+credentials.json
+secrets.json
+
+# ☁️ AWS
+.aws/
+.aws-sam/
+
+# 📊 Data files (no subir data real)
+*.csv
+*.parquet
+
+# 📦 Build / dist
+build/
+dist/
+
+# 🧾 Infra futura (Terraform opcional)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# 🧪 Jupyter
+.ipynb_checkpoints/
+
+# 🧱 Temp files
+tmp/
