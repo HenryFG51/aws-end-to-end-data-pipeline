@@ -40,7 +40,7 @@ aws_ops = AWSOperations(
     secret_path=None,
     s3_bucket=args['output_s3'],
     profile=None,
-    region="us-east-1"
+    region="us-east-1"   #add region as parameter if needed
 )
 
 # Retrieve secrets from AWS Secrets Manager
